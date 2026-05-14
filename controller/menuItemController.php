@@ -7,12 +7,20 @@
         $name = $_POST['name'];
         $description = $_POST['description'];
         $price = $_POST['price'];
+        
+        $src = $_FILES['image']['tmp_name'];
+        $ext = explode('.', $_FILES['image']['name']);
+        $count = count($ext);
+        $newName = time().".".$ext[$count-1];
+
+        $path = "../asset/public/upload/menu/".$newName;
 
         if(
             $restaurant_id == "" ||
             $name == "" ||
             $description == "" ||
-            $price == ""
+            $price == "" ||
+            $_FILES['image']['name'] == ""
         ){
             echo "Please fill all fields!";
         }
@@ -22,12 +30,14 @@
                 'restaurant_id' => $restaurant_id,
                 'name' => $name,
                 'description' => $description,
-                'price' => $price
+                'price' => $price,
+                'image_path' => $path
             ];
 
             $status = addMenuItem($menuItem);
 
             if($status){
+                move_uploaded_file($src, $path);
                 header('location: ../view/menuItemsView.php');
             }
             else{
@@ -55,13 +65,12 @@
         $restaurant_id = $_POST['restaurant_id'];
         $name = $_POST['name'];
         $description = $_POST['description'];
-        $price = $_POST['price'];
 
         if(
             $restaurant_id == "" ||
             $name == "" ||
             $description == "" ||
-            $price == ""
+            $price == "" 
         ){
             echo "Please fill all fields!";
         }
@@ -72,13 +81,15 @@
                 'restaurant_id' => $restaurant_id,
                 'name' => $name,
                 'description' => $description,
-                'price' => $price
+                'price' => $price,
             ];
 
             $status = updateMenuItem($menuItem);
 
             if($status){
-                header('location: ../view/menuItemsView.php');
+                if($status){
+                    header('location: ../view/menuItemsView.php');
+                }
             }
             else{
                 echo "Failed to update menu item!";

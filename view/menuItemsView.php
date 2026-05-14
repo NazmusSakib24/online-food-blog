@@ -17,7 +17,7 @@
 
     <h1>Menu Item Management</h1>
 
-    <form action="../controller/menuItemController.php" method="post">
+    <form action="../controller/menuItemController.php" method="post" enctype="multipart/form-data">
 
         Restaurant:
         <select name="restaurant_id">
@@ -46,6 +46,10 @@
         <input type="text" name="price">
         <br><br>
 
+        Image:
+        <input type="file" name="image">
+        <br><br>    
+        
         <input type="submit" name="add_menu_item" value="Add Menu Item">
 
     </form>
