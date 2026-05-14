@@ -12,7 +12,7 @@
                     '{$menuItem['name']}',
                     '{$menuItem['description']}',
                     '{$menuItem['price']}',
-                    null,
+                    '{$menuItem['image_path']}',
                     CURRENT_TIMESTAMP
                 )";
 
