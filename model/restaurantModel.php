@@ -21,4 +21,20 @@
             return false;
         }
     }
+
+    function getAllRestaurant(){
+        $con = getConnection();
+
+        $sql = "SELECT * FROM restaurants";
+
+        $result = mysqli_query($con, $sql);
+
+        $restaurants = [];
+
+        while ($row = mysqli_fetch_assoc($result)){
+            $restaurants[] = $row;
+        }
+
+        return $restaurants;
+    }
 ?>
