@@ -8,11 +8,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Restaurants</title>
+        <title>Online Food Blog</title>
     </head>
     <body>
         <h1>Restaurant Management</h1>
-        <form action="../controller/restaurant.php" method="post">
+        <form action="../controller/restaurantController.php" method="post">
             Name: 
             <input type="text" name="name">
             <br><br>
@@ -43,7 +43,10 @@
                 <th>Name</th>
                 <th>Location</th>
                 <th>Area</th>
+                <th>Short Background</th>
+                <th>Goals</th>
                 <th>Action</th>
+                
             </tr>
 
             <?php foreach ($restaurants as $r){ ?>
@@ -52,8 +55,11 @@
                     <td><?= $r['name'] ?></td>
                     <td><?= $r['location'] ?></td>
                     <td><?= $r['area'] ?></td>
+                    <td><?= $r['short_background'] ?></td>
+                    <td><?= $r['goals'] ?></td>
 
-                    <td><a href="restaurantsView.php?id=<?= $r['id'] ?>">Edit</a> |
+                    <td>
+                    <a href="editRestaurants.php?id=<?= $r['id'] ?>">Edit</a> |
                     <a href="../controller/restaurantController.php?id=<?= $r['id'] ?>">Delete</a>
                     </td>
                 </tr> 
