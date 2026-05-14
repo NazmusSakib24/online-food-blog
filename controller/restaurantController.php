@@ -9,7 +9,7 @@
         $goals = $_POST['goals'];
 
         if (
-            $name == "" || $location == "" || $area == "" || $short_background == "" || $goals == ""   
+            $name == "" || $location == "" || $area == "" || $short_background == "" || $goals = ""   
         ){
             echo "Please fill all fields";
         }
