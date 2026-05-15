@@ -60,6 +60,7 @@
 
                     <td>
                     <a href="editRestaurants.php?id=<?= $r['id'] ?>">Edit</a> |
+                    <a href="restaurantDetails.php?id=<?= $r['id'] ?>">Details</a> |
                     <a href="../controller/restaurantController.php?id=<?= $r['id'] ?>">Delete</a>
                     </td>
                 </tr> 

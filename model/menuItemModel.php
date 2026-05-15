@@ -68,7 +68,6 @@
 
     }
     
-    
 
     function updateMenuItem($menuItem){
 
@@ -88,5 +87,19 @@
                 return false;
             }
 
-}
+    }
+
+
+    function getMenuItemsByRestaurant($restaurantId){
+        $con = getConnection();
+        $sql = "SELECT * FROM menu_items
+                Where restaurant_id = '{$restaurantId}'";
+        $result = mysqli_query($con, $sql);
+        $menuItems = [];
+        while ($row = mysqli_fetch_assoc($result)){
+            $menuItems[]=$row;
+        }
+
+        return $menuItems;
+    } 
 ?>
