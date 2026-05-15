@@ -3,8 +3,20 @@
     require_once('../model/restaurantModel.php');
     require_once('../model/menuItemModel.php');
     
+    $selectedRestaurant = "";
+
+    if(isset($_GET['restaurant_id'])){
+        $selectedRestaurant = $_GET['restaurant_id'];
+    }
+
     $restaurants = getAllRestaurant();
-    $menuItems = getAllMenuItems();
+
+        if(isset($_GET['restaurant_id'])){
+        $menuItems = getMenuItemsByRestaurant($_GET['restaurant_id']);
+    }
+    else{
+        $menuItems = getAllMenuItems();
+    }
 
 ?>
 
@@ -20,17 +32,25 @@
     <form action="../controller/menuItemController.php" method="post" enctype="multipart/form-data">
 
         Restaurant:
-        <select name="restaurant_id">
+            <select  name="restaurant_id"<?= isset($_GET['restaurant_id']) ? 'disabled' : '' ?>
+>
 
-            <?php foreach($restaurants as $r){ ?>
+                <?php foreach($restaurants as $r){ ?>
 
-                <option value="<?= $r['id'] ?>">
-                    <?= $r['name'] ?>
-                </option>
+                    <option 
+                        value="<?= $r['id'] ?>"<?= ($selectedRestaurant == $r['id']) ? 'selected' : '' ?>>
+                        <?= $r['name'] ?>
+                    </option>
+
+                <?php } ?>
+
+            </select>
+
+            <?php if(isset($_GET['restaurant_id'])){ ?>
+
+                <input type="hidden" name="restaurant_id" value="<?= $_GET['restaurant_id'] ?>">
 
             <?php } ?>
-
-        </select>
 
         <br><br>
 
@@ -60,6 +80,7 @@
         <tr>
             <th>ID</th>
             <th>Restaurant ID</th>
+            <th>Image</th>
             <th>Item Name</th>
             <th>Description</th>
             <th>Price</th>
@@ -70,6 +91,9 @@
             <tr>
                 <td><?= $m['id'] ?></td>
                 <td><?= $m['restaurant_id'] ?></td>
+                <td>
+                    <img src="<?= $m['image_path'] ?>" width="80">
+                </td>
                 <td><?= $m['name'] ?></td>
                 <td><?= $m['description'] ?></td>
                 <td><?= $m['price'] ?></td>
@@ -77,7 +101,8 @@
                     <a href="editMenuItem.php?id=<?= $m['id'] ?>">Edit
                     </a> |
 
-                    <a href="../controller/menuItemController.php?id=<?= $m['id'] ?>">Delete
+                    <a href="../controller/menuItemController.php?delete_id=<?= $m['id'] ?>&restaurant_id=<?= $selectedRestaurant ?>">
+                    Delete
                     </a>
                 </td>
             </tr>

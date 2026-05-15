@@ -24,23 +24,9 @@
 
         ID:
         <input type="text" name="id" value="<?= $menuItem['id'] ?>" readonly>
-        <br><br>
+        <br>
 
-        Restaurant:
-        <select name="restaurant_id">
-
-            <?php foreach($restaurants as $r){ ?>
-
-                <option 
-                    value="<?= $r['id'] ?>"
-                    <?= ($r['id'] == $menuItem['restaurant_id']) ? 'selected' : '' ?>
-                >
-                    <?= $r['name'] ?>
-                </option>
-
-            <?php } ?>
-
-        </select>
+        <input type="hidden" name="restaurant_id" value="<?= $menuItem['restaurant_id'] ?>">
 
         <br><br>
 

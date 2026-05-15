@@ -28,12 +28,18 @@
     <p><b>Goals:</b> <?= $restaurant['goals'] ?> </p>
 
     <h2>Menu Items</h2>
+        <a href="menuItemsView.php?restaurant_id=<?= $id ?>">
+            Add Menu Item
+        </a>
+
+<br><br>
         <table border="1">
             <tr>
                 <th>Image</th>
-                <th>Na`me</th>
+                <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Action</th>
             </tr>
 
             <?php foreach($menuItems as $m){ ?>
@@ -41,9 +47,17 @@
                     <td>
                         <img src="<?= $m['image_path'] ?>" width="100">
                     </td>
-                    <td><?= $m['name'] ?></td>
+                    <td><a href="menuItemDetails.php?id=<?= $m['id'] ?>">
+                            <?= $m['name'] ?>
+                        </a>
+                    </td>
                     <td><?= $m['description'] ?></td>
                     <td><?= $m['price'] ?></td>
+                    <td><a href="editMenuItem.php?id=<?= $m['id'] ?>?">Edit</a> |
+                        <a href="../controller/menuItemController.php?delete_id=<?= $m['id'] ?>&restaurant_id=<?= $id ?>">
+                             Delete
+                        </a>
+                    </td>
                 </tr>
             <?php } ?>
         </table>

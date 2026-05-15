@@ -38,26 +38,29 @@
 
             if($status){
                 move_uploaded_file($src, $path);
-                header('location: ../view/menuItemsView.php');
+                header('location: ../view/restaurantDetails.php?id='.$restaurant_id);
             }
             else{
                 echo "Failed to add menu item!";
             }
         }
     }
-    if(isset($_GET['id'])){
 
-        $id = $_GET['id'];
+    if(isset($_GET['delete_id'])){
 
-        $status = deleteMenuItem($id);
+    $id = $_GET['delete_id'];
 
-        if($status){
-            header('location: ../view/menuItemsView.php');
-        }
-        else{
-            echo "Failed to delete menu item!";
-        }
+    $status = deleteMenuItem($id);
+
+    if($status){
+
+        header('location: ../view/restaurantDetails.php?id='.$_GET['restaurant_id']);
+
     }
+    else{
+        echo "Failed to delete menu item!";
+    }
+}
 
     if(isset($_POST['update_menu_item'])){
 
@@ -65,6 +68,7 @@
         $restaurant_id = $_POST['restaurant_id'];
         $name = $_POST['name'];
         $description = $_POST['description'];
+        $price = $_POST['price'];
 
         if(
             $restaurant_id == "" ||
@@ -86,11 +90,10 @@
 
             $status = updateMenuItem($menuItem);
 
-            if($status){
-                if($status){
-                    header('location: ../view/menuItemsView.php');
-                }
-            }
+           if($status){
+
+                header('location: ../view/restaurantDetails.php?id='.$restaurant_id);
+           }
             else{
                 echo "Failed to update menu item!";
             }

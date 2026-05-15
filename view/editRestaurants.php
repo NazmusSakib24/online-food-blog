@@ -1,6 +1,10 @@
 <?php
 
     require_once('../model/restaurantModel.php');
+    
+    if(!isset($_GET['id'])){
+        header('location: menuItemsView.php');
+    }
 
     $id = $_GET['id'];
 
