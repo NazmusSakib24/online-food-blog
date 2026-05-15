@@ -33,5 +33,24 @@
         <?= $menuItem['price'] ?>
     </p>
 
+    <hr>
+
+    <h2>Reviews</h2>
+
+        <form method="post">
+
+            <textarea 
+                name="review"
+                rows="5" 
+                cols="50" 
+                placeholder="Write your review...">
+            </textarea>
+
+            <br><br>
+
+            <input type="submit" name="submit_review" value="Submit Review">
+
+        </form>
+
 </body>
 </html>

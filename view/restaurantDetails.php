@@ -36,7 +36,7 @@
         <table border="1">
             <tr>
                 <th>Image</th>
-                <th>Name</th>
+                <th>Menu Item </th>
                 <th>Description</th>
                 <th>Price</th>
                 <th>Action</th>
