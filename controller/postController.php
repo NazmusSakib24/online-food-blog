@@ -123,3 +123,125 @@ if ($type == 'addPost') {
         ]);
     }
 }
+
+elseif ($type == 'addComment') {
+    require_once('../model/commentModel.php');
+
+    $commentData = json_decode($_POST['comment'], true);
+
+    $post_id = $commentData['post_id'];
+    $comment = $commentData['comment'];
+    $user_id = $_SESSION['user']['id'];
+
+    if ($comment == "") {
+        echo json_encode([
+            "status" => false,
+            "message" => "Null comment not allowed"
+        ]);
+        exit();
+    }
+
+    $data = ['post_id' => $post_id, 'user_id' => $user_id, 'comment' => $comment];
+    $status = addComment($data);
+
+    if ($status) {
+        echo json_encode([
+            "status" => true,
+            "message" => "Comment added successfully"
+        ]);
+    } else {
+        echo json_encode([
+            "status" => false,
+            "message" => "Failed to add comment"
+        ]);
+    }
+}
+elseif($type == 'loadComments') {
+    require_once('../model/commentModel.php');
+
+    $post_id = $_POST['post_id'];
+    $comments = getCommentsByPostId($post_id);
+
+    echo json_encode([
+        "status" => true,
+        "comments" => $comments
+    ]);
+}
+elseif($type == 'deleteComment') {
+    require_once('../model/commentModel.php');
+
+    $id = $_POST['id'];
+    $user_id = $_SESSION['user']['id'];
+    $role = $_SESSION['user']['role'];
+
+    $comment = getCommentById($id);
+
+    if ($comment['user_id'] != $user_id && $role != 'admin') {
+        echo json_encode([
+            "status" => false,
+            "message" => "You are not authorized to delete this comment"
+        ]);
+        exit();
+    }
+
+    $status = deleteComment($id);
+
+    if ($status) {
+        echo json_encode([
+            "status" => true,
+            "message" => "Comment deleted successfully"
+        ]);
+    } else {
+        echo json_encode([
+            "status" => false,
+            "message" => "Failed to delete comment"
+        ]);
+    }
+}
+
+elseif($type == 'editComment') {
+    require_once('../model/commentModel.php');
+
+    $commentData = json_decode($_POST['comment'], true);
+
+    $id = $commentData['id'];
+    $comment = $commentData['comment'];
+    $post_id = $commentData['post_id'];
+
+    $user_id = $_SESSION['user']['id'];
+    $role = $_SESSION['user']['role'];
+
+    $oldComment = getCommentById($id);
+
+    if(!$oldComment){
+        echo json_encode([
+            "status" => false,
+            "message" => "Comment not found"
+        ]);
+        exit();
+    }
+
+    if ($oldComment['user_id'] != $user_id && $role != 'admin') {
+        echo json_encode([
+            "status" => false,
+            "message" => "You are not authorized to edit this comment"
+        ]);
+        exit();
+    }
+
+
+    $data = ['id' => $id, 'comment' => $comment];
+    $status = editComment($data);
+
+    if ($status) {
+        echo json_encode([
+            "status" => true,
+            "message" => "Comment updated successfully"
+        ]);
+    } else {
+        echo json_encode([
+            "status" => false,
+            "message" => "Failed to update comment"
+        ]);
+    }
+}
