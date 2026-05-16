@@ -4,8 +4,8 @@ require_once('db.php');
 function addPost($data)
 {
     $con = getConnection();
-    $sql = "INSERT INTO posts (title, content, user_id) 
-        VALUES ('{$data['title']}', '{$data['content']}', '{$data['user_id']}')";
+    $sql = "INSERT INTO posts (title, content, user_id, type) 
+        VALUES ('{$data['title']}', '{$data['content']}', '{$data['user_id']}', '{$data['type']}')";
     $result = mysqli_query($con, $sql);
     if ($result) {
         return true;
@@ -23,6 +23,7 @@ function getAllPost()
                 posts.title,
                 posts.content,
                 posts.user_id,
+                posts.type,
                 posts.created_at,
                 users.username
             FROM posts
