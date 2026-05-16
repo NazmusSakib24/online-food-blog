@@ -18,16 +18,23 @@ function getAllPost()
 {
     $con = getConnection();
 
-    $sql = "SELECT posts.id, posts.title, posts.content, posts.created_at, users.username 
-            FROM posts 
-            JOIN users ON posts.user_id = users.id";
+    $sql = "SELECT 
+                posts.id,
+                posts.title,
+                posts.content,
+                posts.user_id,
+                posts.created_at,
+                users.username
+            FROM posts
+            JOIN users ON posts.user_id = users.id
+            ORDER BY posts.id DESC";
 
     $result = mysqli_query($con, $sql);
 
     $posts = [];
 
     while ($row = mysqli_fetch_assoc($result)) {
-        array_push($posts, $row);
+        $posts[] = $row;
     }
 
     return $posts;
@@ -44,14 +51,6 @@ function getPostById($id)
 function editPost($data)
 {
     $con = getConnection();
-
-    $checkSql = "SELECT user_id FROM posts WHERE id='{$data['id']}'";
-    $result = mysqli_query($con, $checkSql);
-    $row = mysqli_fetch_assoc($result);
-
-    if ($row['user_id'] != $data['user_id'] && $data['role'] != 'admin') {
-        return false;
-    }
 
     $sql = "UPDATE posts 
             SET title='{$data['title']}', content='{$data['content']}'
