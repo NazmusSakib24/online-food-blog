@@ -19,10 +19,21 @@ function loadPost() {
           postDiv.innerHTML +=
             '<button onclick="editPost(' + posts[i].id + ')">Edit</button>';
           postDiv.innerHTML +=
-            '<button onclick="deletePost(' + posts[i].id + ')">Delete</button>';
+            '<button onclick="deletePost(' +
+            posts[i].id +
+            ')">Delete</button><br><br>';
         }
-        postDiv.innerHTML += "<hr>";
+
+        postDiv.innerHTML += `
+    <div>
+      <input type="text" id="comment_${posts[i].id}" placeholder="Write comment">
+      <button onclick="addComment(${posts[i].id})">Comment</button>
+    </div>
+  `;
+        postDiv.innerHTML += `<div id="commentDiv_${posts[i].id}"></div>`;
+        loadComments(posts[i].id);
       }
+      postDiv.innerHTML += "<hr>";
     }
   };
 
@@ -121,3 +132,122 @@ function editPost(id) {
 window.onload = function () {
   loadPost();
 };
+
+function addComment(post_id) {
+  let commentText = document.getElementById("comment_" + post_id).value;
+
+  let comment = {
+    post_id: post_id,
+    comment: commentText,
+  };
+
+  let data = JSON.stringify(comment);
+
+  let xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "../controller/postController.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+
+      if (response.status) {
+        loadComments(post_id);
+        document.getElementById("comment_" + post_id).value = "";
+      } else {
+        alert(response.message);
+      }
+    }
+  };
+
+  xhttp.send("type=addComment&comment=" + encodeURIComponent(data));
+}
+
+function loadComments(post_id) {
+  let xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "../controller/postController.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      let comments = response.comments || [];
+
+      let commentDiv = document.getElementById("commentDiv_" + post_id);
+      commentDiv.innerHTML = "<h4>Comments:</h4>";
+
+      for (let i = 0; i < comments.length; i++) {
+        commentDiv.innerHTML += "<p>" + comments[i].comment + "</p>";
+        commentDiv.innerHTML += "<p>By: " + comments[i].username + " </p>";
+
+        if (role == "admin" || comments[i].user_id == user_id) {
+          commentDiv.innerHTML += `<button onclick="editComment(${comments[i].id}, '${comments[i].comment}', ${post_id})">Edit</button>`;
+          commentDiv.innerHTML += `<button onclick="deleteComment(${comments[i].id}, ${post_id})">Delete</button>`;
+        }
+
+        commentDiv.innerHTML += "<hr>";
+      }
+    }
+  };
+
+  xhttp.send("type=loadComments&post_id=" + post_id);
+}
+
+function deleteComment(id, post_id) {
+  let confirmDelete = confirm("Delete this comment?");
+
+  if (!confirmDelete) return;
+
+  let xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "../controller/postController.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+
+      if (response.status) {
+        loadComments(post_id);
+      } else {
+        alert(response.message);
+      }
+    }
+  };
+
+  xhttp.send("type=deleteComment&id=" + id);
+}
+
+function editComment(id, oldComment, post_id) {
+  let newComment = prompt("Edit your comment:", oldComment);
+
+  if (newComment == null) {
+    return;
+  }
+
+  let comment = {
+    id: id,
+    comment: newComment,
+  };
+
+  let data = JSON.stringify(comment);
+
+  let xhttp = new XMLHttpRequest();
+
+  xhttp.open("POST", "../controller/postController.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      let response = JSON.parse(this.responseText);
+      if (response.status) {
+        loadComments(post_id);
+      } else {
+        alert(response.message);
+      }
+    }
+  };
+  xhttp.send("type=editComment&comment=" + encodeURIComponent(data));
+}
