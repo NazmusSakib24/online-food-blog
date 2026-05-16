@@ -75,3 +75,17 @@ function deletePost($id, $user_id, $role)
     $sql = "DELETE FROM posts WHERE id='{$id}'";
     return mysqli_query($con, $sql);
 }
+function getPostsByUserId($user_id)
+{
+    $con = getConnection();
+    $sql = "SELECT * FROM posts WHERE user_id = $user_id ORDER BY id DESC";
+    $result = mysqli_query($con, $sql);
+
+    $posts = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $posts[] = $row;
+    }
+
+    return $posts;
+}
+
