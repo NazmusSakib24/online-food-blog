@@ -50,6 +50,7 @@ function getCommentById($id)
     $result = mysqli_query($con, $sql);
 
     return mysqli_fetch_assoc($result);
+    
 }
 
 function editComment($data)
@@ -61,4 +62,17 @@ function editComment($data)
             WHERE id='{$data['id']}'";
 
     return mysqli_query($con, $sql);
+}
+function getCommentsByUserId($user_id)
+{
+    $con = getConnection();
+    $sql = "SELECT * FROM comments WHERE user_id = $user_id ORDER BY id DESC";
+    $result = mysqli_query($con, $sql);
+
+    $comments = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $comments[] = $row;
+    }
+
+    return $comments;
 }

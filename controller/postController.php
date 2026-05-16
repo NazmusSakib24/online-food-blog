@@ -256,7 +256,8 @@ if ($type == 'loadPost') {
     if ($status) {
         echo json_encode([
             "status" => true,
-            "message" => "Comment updated successfully"
+            "message" => "Comment updated successfully",
+            "post_id" => $post_id
         ]);
     } else {
         echo json_encode([

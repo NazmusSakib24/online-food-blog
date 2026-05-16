@@ -56,7 +56,6 @@ function addPost() {
 
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
       let response = JSON.parse(this.responseText);
       if (response.status) {
         loadPost();
@@ -184,10 +183,13 @@ function loadComments(post_id) {
         commentDiv.innerHTML += "<p>" + comments[i].comment + " <span style='font-size:12px; color:black;'>[ " + comments[i].username + " | " + comments[i].created_at + " ]</span></p>";
        
 
-        if (role == "admin" || comments[i].user_id == user_id) {
-          commentDiv.innerHTML += '<button onclick="editComment(\'' + comments[i].id + '\', \'' + comments[i].comment + '\', ' + post_id + ')">Edit</button>';
-          commentDiv.innerHTML += '<button onclick="deleteComment(' + comments[i].id + ', ' + post_id + ')">Delete</button>';
-        }
+       if (role == "admin" || comments[i].user_id == user_id) {
+
+  commentDiv.innerHTML +=
+  '<button onclick="editComment(' + comments[i].id + ', \'' + comments[i].comment + '\', ' + post_id + ')">Edit</button>';
+  commentDiv.innerHTML +=
+    '<button onclick="deleteComment(' + comments[i].id + ', ' + post_id + ')">Delete</button>';
+}
       }
       commentDiv.innerHTML += "<hr>";
     }
@@ -231,6 +233,7 @@ function editComment(id, oldComment, post_id) {
   let comment = {
     id: id,
     comment: newComment,
+    post_id: post_id,
   };
 
   let data = JSON.stringify(comment);
@@ -244,7 +247,7 @@ function editComment(id, oldComment, post_id) {
     if (this.readyState == 4 && this.status == 200) {
       let response = JSON.parse(this.responseText);
       if (response.status) {
-        loadComments(post_id);
+        loadComments(response.post_id);
       } else {
         alert(response.message);
       }
@@ -252,6 +255,7 @@ function editComment(id, oldComment, post_id) {
   };
   xhttp.send("type=editComment&comment=" + encodeURIComponent(data));
 }
+
 function goToLogin() {
   window.location.href = "login.php";
 }
