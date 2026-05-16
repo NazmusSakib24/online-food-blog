@@ -1,13 +1,11 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
 require_once('../model/postModel.php');
 
 $type = $_POST['type'];
 
 if ($type == 'addPost') {
-   
+
     $post = json_decode($_POST['post'], true);
 
     $title = $post['title'];
@@ -57,7 +55,7 @@ if ($type == 'addPost') {
         exit();
     }
 
-    $status = deletePost($id);
+    $status = deletePost($id, $user_id, $role);
 
     if ($status) {
         echo json_encode([
@@ -73,6 +71,14 @@ if ($type == 'addPost') {
 } else if ($type == 'editPost') {
     $post = json_decode($_POST['post'], true);
 
+    if (!$post) {
+        echo json_encode([
+            "status" => false,
+            "message" => "Invalid data received"
+        ]);
+        exit();
+    }
+
     $id = $post['id'];
     $title = $post['title'];
     $content = $post['content'];
@@ -82,6 +88,17 @@ if ($type == 'addPost') {
 
     $oldPost = getPostById($id);
 
+    $title = trim($post['title']) !== "" ? $post['title'] : $oldPost['title'];
+    $content = trim($post['content']) !== "" ? $post['content'] : $oldPost['content'];
+
+    if(!$oldPost){
+        echo json_encode([
+            "status" => false,
+            "message" => "Post not found"
+        ]);
+        exit();
+    }
+
     if ($oldPost['user_id'] != $user_id && $role != 'admin') {
         echo json_encode([
             "status" => false,
@@ -90,13 +107,6 @@ if ($type == 'addPost') {
         exit();
     }
 
-    if ($title == "" || $content == "") {
-        echo json_encode([
-            "status" => false,
-            "message" => "Null title/content not allowed"
-        ]);
-        exit();
-    }
 
     $data = ['id' => $id, 'title' => $title, 'content' => $content];
     $status = editPost($data);
@@ -113,4 +123,3 @@ if ($type == 'addPost') {
         ]);
     }
 }
-?>
