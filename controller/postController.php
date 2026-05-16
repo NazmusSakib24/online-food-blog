@@ -4,12 +4,33 @@ require_once('../model/postModel.php');
 
 $type = $_POST['type'];
 
-if ($type == 'addPost') {
+if ($type == 'loadPost') {
+    $posts = getAllPost();
+    echo json_encode([
+        "status" => true,
+        "posts" => $posts
+    ]);
+} elseif ($type == 'loadComments') {
+    require_once('../model/commentModel.php');
+
+    $post_id = $_POST['post_id'];
+    $comments = getCommentsByPostId($post_id);
+
+    echo json_encode([
+        "status" => true,
+        "comments" => $comments
+    ]);
+} else if ($type == 'addPost') {
+    if (!isset($_SESSION['user'])) {
+        echo json_encode(["status" => false, "message" => "Login required"]);
+        exit();
+    }
 
     $post = json_decode($_POST['post'], true);
 
     $title = $post['title'];
     $content = $post['content'];
+    $type = $post['type'];
     $user_id = $_SESSION['user']['id'];
 
     if ($title == "" || $content == "") {
@@ -20,7 +41,7 @@ if ($type == 'addPost') {
         exit();
     }
 
-    $data = ['title' => $title, 'content' => $content, 'user_id' => $user_id];
+    $data = ['title' => $title, 'content' => $content, 'type' => $type, 'user_id' => $user_id];
     $status = addPost($data);
 
     if ($status) {
@@ -34,13 +55,11 @@ if ($type == 'addPost') {
             "message" => "Failed to add post"
         ]);
     }
-} else if ($type == 'loadPost') {
-    $posts = getAllPost();
-    echo json_encode([
-        "status" => true,
-        "posts" => $posts
-    ]);
 } else if ($type == 'deletePost') {
+    if (!isset($_SESSION['user'])) {
+        echo json_encode(["status" => false, "message" => "Login required"]);
+        exit();
+    }
     $id = $_POST['id'];
     $user_id = $_SESSION['user']['id'];
     $role = $_SESSION['user']['role'];
@@ -69,6 +88,10 @@ if ($type == 'addPost') {
         ]);
     }
 } else if ($type == 'editPost') {
+    if (!isset($_SESSION['user'])) {
+        echo json_encode(["status" => false, "message" => "Login required"]);
+        exit();
+    }
     $post = json_decode($_POST['post'], true);
 
     if (!$post) {
@@ -88,16 +111,17 @@ if ($type == 'addPost') {
 
     $oldPost = getPostById($id);
 
-    $title = trim($post['title']) !== "" ? $post['title'] : $oldPost['title'];
-    $content = trim($post['content']) !== "" ? $post['content'] : $oldPost['content'];
-
-    if(!$oldPost){
+    if (!$oldPost) {
         echo json_encode([
             "status" => false,
             "message" => "Post not found"
         ]);
         exit();
     }
+
+    $title = trim($post['title']) !== "" ? $post['title'] : $oldPost['title'];
+    $content = trim($post['content']) !== "" ? $post['content'] : $oldPost['content'];
+
 
     if ($oldPost['user_id'] != $user_id && $role != 'admin') {
         echo json_encode([
@@ -122,9 +146,11 @@ if ($type == 'addPost') {
             "message" => "Failed to update post"
         ]);
     }
-}
-
-elseif ($type == 'addComment') {
+} elseif ($type == 'addComment') {
+    if (!isset($_SESSION['user'])) {
+        echo json_encode(["status" => false, "message" => "Login required"]);
+        exit();
+    }
     require_once('../model/commentModel.php');
 
     $commentData = json_decode($_POST['comment'], true);
@@ -155,19 +181,11 @@ elseif ($type == 'addComment') {
             "message" => "Failed to add comment"
         ]);
     }
-}
-elseif($type == 'loadComments') {
-    require_once('../model/commentModel.php');
-
-    $post_id = $_POST['post_id'];
-    $comments = getCommentsByPostId($post_id);
-
-    echo json_encode([
-        "status" => true,
-        "comments" => $comments
-    ]);
-}
-elseif($type == 'deleteComment') {
+} elseif ($type == 'deleteComment') {
+    if (!isset($_SESSION['user'])) {
+        echo json_encode(["status" => false, "message" => "Login required"]);
+        exit();
+    }
     require_once('../model/commentModel.php');
 
     $id = $_POST['id'];
@@ -197,9 +215,11 @@ elseif($type == 'deleteComment') {
             "message" => "Failed to delete comment"
         ]);
     }
-}
-
-elseif($type == 'editComment') {
+} elseif ($type == 'editComment') {
+    if (!isset($_SESSION['user'])) {
+        echo json_encode(["status" => false, "message" => "Login required"]);
+        exit();
+    }
     require_once('../model/commentModel.php');
 
     $commentData = json_decode($_POST['comment'], true);
@@ -213,7 +233,7 @@ elseif($type == 'editComment') {
 
     $oldComment = getCommentById($id);
 
-    if(!$oldComment){
+    if (!$oldComment) {
         echo json_encode([
             "status" => false,
             "message" => "Comment not found"
