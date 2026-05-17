@@ -50,7 +50,6 @@ function getCommentById($id)
     $result = mysqli_query($con, $sql);
 
     return mysqli_fetch_assoc($result);
-    
 }
 
 function editComment($data)

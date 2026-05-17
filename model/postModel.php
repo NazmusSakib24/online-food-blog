@@ -88,4 +88,3 @@ function getPostsByUserId($user_id)
 
     return $posts;
 }
-

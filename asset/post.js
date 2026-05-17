@@ -12,12 +12,23 @@ function loadPost() {
       postDiv.innerHTML = "";
       for (let i = 0; i < posts.length; i++) {
         postDiv.innerHTML += "<h2>Post for: " + posts[i].type + "</h2>";
-        postDiv.innerHTML += "<h3>" + posts[i].title + " <span style='font-size:12px; color:black;'>[ " + posts[i].username + " | " + posts[i].created_at + " ]</span></h3>";
+        postDiv.innerHTML +=
+          "<h3>" +
+          posts[i].title +
+          " <span style='font-size:12px; color:black;'>[ " +
+          posts[i].username +
+          " | " +
+          posts[i].created_at +
+          " ]</span></h3>";
         postDiv.innerHTML += "<p>" + posts[i].content + "</p>";
 
         if (role == "admin" || posts[i].user_id == user_id) {
-          postDiv.innerHTML += '<button onclick="editPost(' + posts[i].id + ')">Edit</button>';
-          postDiv.innerHTML += '<button onclick="deletePost(' + posts[i].id +')">Delete</button><br><br>';
+          postDiv.innerHTML +=
+            '<button onclick="editPost(' + posts[i].id + ')">Edit</button>';
+          postDiv.innerHTML +=
+            '<button onclick="deletePost(' +
+            posts[i].id +
+            ')">Delete</button><br><br>';
         }
         if (user_id) {
           postDiv.innerHTML += `<div> 
@@ -180,16 +191,31 @@ function loadComments(post_id) {
       commentDiv.innerHTML = "<h4>Comments:</h4>";
 
       for (let i = 0; i < comments.length; i++) {
-        commentDiv.innerHTML += "<p>" + comments[i].comment + " <span style='font-size:12px; color:black;'>[ " + comments[i].username + " | " + comments[i].created_at + " ]</span></p>";
-       
+        commentDiv.innerHTML +=
+          "<p>" +
+          comments[i].comment +
+          " <span style='font-size:12px; color:black;'>[ " +
+          comments[i].username +
+          " | " +
+          comments[i].created_at +
+          " ]</span></p>";
 
-       if (role == "admin" || comments[i].user_id == user_id) {
-
-  commentDiv.innerHTML +=
-  '<button onclick="editComment(' + comments[i].id + ', \'' + comments[i].comment + '\', ' + post_id + ')">Edit</button>';
-  commentDiv.innerHTML +=
-    '<button onclick="deleteComment(' + comments[i].id + ', ' + post_id + ')">Delete</button>';
-}
+        if (role == "admin" || comments[i].user_id == user_id) {
+          commentDiv.innerHTML +=
+            '<button onclick="editComment(' +
+            comments[i].id +
+            ", '" +
+            comments[i].comment +
+            "', " +
+            post_id +
+            ')">Edit</button>';
+          commentDiv.innerHTML +=
+            '<button onclick="deleteComment(' +
+            comments[i].id +
+            ", " +
+            post_id +
+            ')">Delete</button>';
+        }
       }
       commentDiv.innerHTML += "<hr>";
     }

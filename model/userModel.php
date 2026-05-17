@@ -28,11 +28,17 @@ function addUser($user)
     }
 }
 
-function deleteUser($id) {}
+function deleteUser($id)
+{
+    $con = getConnection();
+
+    $sql = "DELETE FROM users WHERE id='$id'";
+    $result = mysqli_query($con, $sql);
+
+    return $result;
+}
 
 function updateUser($user) {}
-
-function getAllUser() {}
 
 function getAllMembers()
 {

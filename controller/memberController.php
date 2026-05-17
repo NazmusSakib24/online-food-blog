@@ -4,18 +4,27 @@ require_once('../model/userModel.php');
 
 header('Content-Type: application/json');
 
-$type = $_POST['type'] ?? '';
+$type = $_POST['type'];
 
-if ($type == "getMembers") {
+if ($type == "loadMembers") {
 
     $members = getAllMembers();
+
+    if (!$members || count($members) == 0) {
+
+        echo json_encode([
+            "status" => false,
+            "message" => "No members found"
+        ]);
+
+        exit();
+    }
 
     echo json_encode([
         "status" => true,
         "members" => $members
     ]);
-}
-else if ($type == "deleteMember") {
+} else if ($type == "deleteMember") {
     $id = $_POST['id'] ?? '';
 
     if (deleteUser($id)) {
@@ -29,8 +38,7 @@ else if ($type == "deleteMember") {
             "message" => "Failed to delete member"
         ]);
     }
-}
-else {
+} else {
     echo json_encode([
         "status" => false,
         "message" => "Invalid type"

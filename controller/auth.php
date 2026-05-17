@@ -6,8 +6,8 @@ $type = $_POST['type'];
 
 if ($type == 'login') {
 
-$user = json_decode($_POST['user'], true);
-    
+    $user = json_decode($_POST['user'], true);
+
     $username = $user['username'];
     $password = $user['password'];
     $role = $user['role'];
@@ -41,9 +41,7 @@ $user = json_decode($_POST['user'], true);
             "message" => "Invalid user"
         ]);
     }
-}
-
-else if ($type == 'signup') {
+} else if ($type == 'signup') {
     $user = json_decode($_POST['user'], true);
 
     $username = $user['username'];

@@ -11,6 +11,7 @@ $user_id = $_GET['user_id'];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>User Activity</title>
@@ -18,17 +19,23 @@ $user_id = $_GET['user_id'];
 
 <body>
 
-<h2>User Activity</h2>
+    <h2>User Activity</h2>
 
-<div id="userInfo"></div>
-<div id="postDiv"></div>
-<div id="commentDiv"></div>
+    <div id="userInfo"></div>
 
-<script>
-    let user_id = <?php echo $user_id; ?>;
-</script>
+    <p id="postMsg"></p>
+    <div id="postDiv"></div>
 
-<script src="../asset/userActivities.js"></script>
+    <p id="commentMsg"></p>
+    <div id="commentDiv"></div>
+
+
+    <script>
+        let user_id = <?php echo $user_id; ?>;
+    </script>
+
+    <script src="../asset/userActivities.js"></script>
 
 </body>
+
 </html>
