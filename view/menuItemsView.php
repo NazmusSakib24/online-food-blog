@@ -43,8 +43,7 @@
     <form action="../controller/menuItemController.php" method="post" enctype="multipart/form-data">
 
         Restaurant:
-            <select  name="restaurant_id"<?= isset($_GET['restaurant_id']) ? 'disabled' : '' ?>
->
+            <select  name="restaurant_id"<?= isset($_GET['restaurant_id']) ? 'disabled' : '' ?> id= "restaurant_id">
 
                 <?php foreach($restaurants as $r){ ?>
 
@@ -66,22 +65,24 @@
         <br><br>
 
         Item Name:
-        <input type="text" name="name">
+        <input type="text" name="name" id = "name">
         <br><br>
 
         Description:
-        <textarea name="description"></textarea>
+        <textarea name="description" id = "description"></textarea>
         <br><br>
 
         Price:
-        <input type="text" name="price">
+        <input type="text" name="price" id = "price">
         <br><br>
 
         Image:
-        <input type="file" name="image">
+        <input type="file" name="image" id = "image">
         <br><br>    
         
-        <input type="submit" name="add_menu_item" value="Add Menu Item">
+        <p id= "msg" style= "color:red"></p>
+
+        <input type="submit" name="add_menu_item" value="Add Menu Item" onclick = "return menu_val()">
 
     </form>
     <br><br>
@@ -119,6 +120,8 @@
             </tr>
         <?php } ?>
     </table>
+
+    <script src="../asset/menu_val.js"></script>
 
 </body>
 </html>

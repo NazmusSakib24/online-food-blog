@@ -62,6 +62,9 @@ $reviewCount = getReviewCount();
     <a href="menuItemsView.php">
         Menu Item Management
     </a>
-
+    <br> <br>
+    <a href="../controller/logout.php">
+        Log out
+    </a>
 </body>
 </html>

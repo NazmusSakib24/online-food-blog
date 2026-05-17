@@ -26,26 +26,30 @@
         <h1>Restaurant Management</h1>
         <form action="../controller/restaurantController.php" method="post">
             Name: 
-            <input type="text" name="name">
+            <input type="text" name="name" id="name">
             <br><br>
 
             Location: 
-            <input type="text" name="location">
+            <input type="text" name="location" id="location">
             <br><br>
 
             Area: 
-            <input type="text" name="area">
+            <input type="text" name="area" id="area">
             <br><br>
 
             Short Background: 
-            <input type="text" name="short_background">
+            <input type="text" name="short_background" id= "short_background">
             <br><br>
 
             Goals: 
-            <textarea name="goals"></textarea>
+            <textarea name="goals" id="goals"></textarea>
             <br><br>
 
-            <input type="submit" value="Add Restaurant" name = "add_restaurant">
+            <p id="msg" style = "color:red"></p>
+
+            <input type="submit" value="Add Restaurant" name = "add_restaurant" onclick = " return res_val()">
+            <br><br>
+            <a href="dashboard.php">Back</a>
         </form>
 
         <br><br>
@@ -78,5 +82,7 @@
                 </tr> 
             <?php } ?>
         </table>
+
+        <script src="../asset/res_val.js"></script>
     </body>
     </html>
