@@ -81,4 +81,17 @@
             return false;
         }
     }
+
+    function getRestaurantCount(){
+
+    $con = getConnection();
+
+    $sql = "SELECT COUNT(*) as total FROM restaurants";
+
+    $result = mysqli_query($con, $sql);
+
+    $row = mysqli_fetch_assoc($result);
+
+    return $row['total'];
+}
 ?>

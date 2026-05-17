@@ -102,4 +102,17 @@
 
         return $menuItems;
     } 
+
+    function getMenuItemCount(){
+
+    $con = getConnection();
+
+    $sql = "SELECT COUNT(*) as total FROM menu_items";
+
+    $result = mysqli_query($con, $sql);
+
+    $row = mysqli_fetch_assoc($result);
+
+    return $row['total'];
+}
 ?>
