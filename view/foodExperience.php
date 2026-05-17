@@ -38,7 +38,7 @@ $user_id = isset($_SESSION['user']) ? $_SESSION['user']['id'] : null;
         <input type="text" id="title" placeholder="Title"><br><br>
 
         <textarea id="content" placeholder="Write experience"></textarea><br><br>
-        
+
         <select id="type">
             <option value="">Select Type</option>
             <option value="restaurant">Restaurant</option>
