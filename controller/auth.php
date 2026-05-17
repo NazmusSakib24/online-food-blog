@@ -11,49 +11,32 @@ if ($type == 'login') {
 
     $name = $user['name'];
     $password = $user['password'];
-    $role = $user['role'];
 
-    if ($name == "" || $password == "" || $role == "") {
+    if ($name == "" || $password == "") {
         echo json_encode([
             "status" => false,
-            "message" => "Null name/password/role"
+            "message" => "Null name/password"
         ]);
         exit();
     }
 
-    $data = ['name' => $name, 'password' => $password, 'role' => $role];
+    $data = ['name' => $name, 'password' => $password];
 
     $userData = login($data);
 
     if ($userData) {
+        $_SESSION['user'] = [
+            "id" => $userData['id'],
+            "name" => $userData['name'],
+            "role" => $userData['role']
+        ];
 
-    $_SESSION['user'] = [
-        "id" => $userData['id'],
-        "name" => $userData['name'],
-        "role" => $userData['role']
-    ];  
-
-        if($userData['role'] == 'admin'){
-
-            echo json_encode([
-                "status" => true,
-                "message" => "Admin login successful",
-                "redirect" => "../view/dashboard.php"
-            ]);
-
-        }
-        else{
-
-            echo json_encode([
-                "status" => true,
-                "message" => "Member login successful",
-                "redirect" => "../view/browseView.php"
-            ]);
-
-        }
-
+        echo json_encode([
+            "status" => true,
+            "message" => "Login successful",
+            "role" => $userData['role']
+        ]);
     } else {
-
         echo json_encode([
             "status" => false,
             "message" => "Invalid user"

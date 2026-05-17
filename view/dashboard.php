@@ -63,5 +63,15 @@ $reviewCount = getReviewCount();
         Menu Item Management
     </a>
 
+    <br><br>
+
+    <a href="foodExperience.php">Food Experience Management</a> 
+    <br><br>
+    <a href="memberList.php">Member List</a>
+    <br><br>
+    <a href="../controller/logout.php">Logout</a>
+
+        
+
 </body>
 </html>

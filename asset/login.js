@@ -1,12 +1,10 @@
 function login() {
   let name = document.getElementById("name").value;
   let password = document.getElementById("password").value;
-  let role = document.getElementById("role").value;
 
   let user = {
     name: name,
     password: password,
-    role: role,
   };
 
   let data = JSON.stringify(user);
@@ -22,7 +20,11 @@ function login() {
       let response = JSON.parse(this.responseText);
 
       if (response.status) {
-        window.location.href = response.redirect;
+        if (response.role === "admin") {
+          window.location.href = "../view/dashboard.php";
+        } else if (response.role === "member") {
+          window.location.href = "../view/memberPage.php";
+        }
       } else {
         document.getElementById("msg").innerHTML = response.message;
       }
