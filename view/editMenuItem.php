@@ -1,5 +1,5 @@
 <?php
-/*
+
     session_start();
 
     if(!isset($_SESSION['user'])){
@@ -9,7 +9,7 @@
     if($_SESSION['user']['role'] != 'admin'){
         header('location: login.php');
     }
-*/
+
 
     require_once('../model/menuItemModel.php');
     require_once('../model/restaurantModel.php');
