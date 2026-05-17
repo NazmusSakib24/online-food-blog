@@ -1,15 +1,5 @@
 <?php
-/*
-    session_start();
 
-    if(!isset($_SESSION['user'])){
-        header('location: login.php');
-    }
-
-    if($_SESSION['user']['role'] != 'admin'){
-        header('location: login.php');
-    }
-*/
     require_once('db.php');
 
     function addMenuItem($menuItem){
@@ -112,4 +102,17 @@
 
         return $menuItems;
     } 
+
+    function getMenuItemCount(){
+
+    $con = getConnection();
+
+    $sql = "SELECT COUNT(*) as total FROM menu_items";
+
+    $result = mysqli_query($con, $sql);
+
+    $row = mysqli_fetch_assoc($result);
+
+    return $row['total'];
+}
 ?>
