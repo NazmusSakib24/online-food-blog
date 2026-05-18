@@ -22,9 +22,11 @@
 
         $extension = strtolower($ext[$count-1]);
 
-        if($extension != "jpg" && 
-           $extension != "jpeg" && 
-           $extension != "png"){
+        if(
+            $extension != "jpg" &&
+            $extension != "jpeg" &&
+            $extension != "png"
+        ){
 
             echo "Invalid image type";
             exit();
@@ -67,7 +69,6 @@
 
             echo "Image upload failed";
         }
-
     }
 
 
@@ -85,7 +86,35 @@
 
             echo "Delete failed";
         }
-
     }
 
-?>      
+
+    if(isset($_POST['update_menu_item'])){
+
+        $id = $_POST['id'];
+        $restaurant_id = $_POST['restaurant_id'];
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $price = $_POST['price'];
+
+        $menuItem = [
+            'id' => $id,
+            'restaurant_id' => $restaurant_id,
+            'name' => $name,
+            'description' => $description,
+            'price' => $price
+        ];
+
+        $status = updateMenuItem($menuItem);
+
+        if($status){
+
+            header('location: ../view/menuItemsView.php');
+
+        }else{
+
+            echo "Update failed";
+        }
+    }
+
+?>

@@ -2,7 +2,7 @@
     $host = "127.0.0.1";
     $dbuser = "root";
     $dbpassword = "";
-    $dbname = "food_blog";
+    $dbname = "food_blog_final";
 
     function getConnection()
     {
