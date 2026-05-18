@@ -26,6 +26,7 @@
 <html lang="en">
 <head>
     <title>Edit Restaurant</title>
+    <link rel="stylesheet" href="../asset/style.css">
 </head>
 <body>
 

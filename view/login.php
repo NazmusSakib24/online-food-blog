@@ -3,6 +3,7 @@
 
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="../asset/style.css">
 </head>
 
 <body>
