@@ -25,6 +25,7 @@ $reviewCount = getReviewCount();
 <html lang="en">
 <head>
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../asset/style.css">
 </head>
 <body>
 

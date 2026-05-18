@@ -16,6 +16,7 @@
 <html lang="en">
 <head>
     <title>Menu Item Details</title>
+    <link rel="stylesheet" href="../asset/style.css">
 </head>
 <body>
 

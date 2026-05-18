@@ -35,6 +35,7 @@
 <html lang="en">
 <head>
     <title>Menu Items</title>
+    <link rel="stylesheet" href="../asset/style.css">
 </head>
 <body>
 

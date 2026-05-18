@@ -21,6 +21,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Online Food Blog</title>
+        <link rel="stylesheet" href="../asset/style.css">
     </head>
     <body>
         <h1>Restaurant Management</h1>
