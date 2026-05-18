@@ -17,7 +17,7 @@ function login($user)
 {
     $con = getConnection();
 
-    $sql = "SELECT * FROM users WHERE name='{$user['name']}' AND role='{$user['role']}'";
+    $sql = "SELECT * FROM users WHERE name='{$user['name']}'";
     $result = mysqli_query($con, $sql);
 
     if ($row = mysqli_fetch_assoc($result)) {
@@ -28,12 +28,11 @@ function login($user)
 
     return false;
 }
-
 function getAllMembers()
 {
     $con = getConnection();
 
-    $sql = "SELECT id, name, email, role FROM users WHERE role='user'";
+    $sql = "SELECT id, name, email, role FROM users WHERE role='member'";
     $result = mysqli_query($con, $sql);
 
     $data = [];
@@ -51,4 +50,3 @@ function deleteUser($id)
     $sql = "DELETE FROM users WHERE id='$id'";
     return mysqli_query($con, $sql);
 }
-?>
