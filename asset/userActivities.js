@@ -85,9 +85,6 @@ function loadUserComments() {
           comments[i].post_id +
           " | <b>Time:</b> " +
           comments[i].created_at +
-          " | <b>Updated Time:</b> " +
-          comments[i].updated_at +
-          "</p>" +
           "<p>" +
           comments[i].comment +
           "</p>" +
